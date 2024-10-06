@@ -1,0 +1,43 @@
+body.easy-dialog-for-wordpress.wp-core-ui {
+	overflow-y: scroll;
+
+	.edfw-modal {
+		button {
+			margin-right: 12px
+		}
+
+		p {
+			line-height: 2
+		}
+
+		.dashicons {
+			font-family: dashicons, sans-serif;
+		}
+
+		.wp-progressbar {
+			progress {
+				width: 100%;
+			}
+
+			progress::-moz-progress-bar {
+				background: green;
+			}
+
+			progress::-webkit-progress-value {
+				background: green;
+			}
+		}
+
+		&.edfw-dialog-error {
+			border-left: 3px solid red;
+		}
+
+		&.edfw-dialog-hint {
+			border-left: 3px solid yellow;
+		}
+
+		&.edfw-dialog-success {
+			border-left: 3px solid green;
+		}
+	}
+}
