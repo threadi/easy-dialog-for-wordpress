@@ -7,6 +7,7 @@ import './style.scss';
 import { Button, Modal } from '@wordpress/components';
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom';
+import _uniqueId from 'lodash/uniqueId';
 
 /**
  * Define the Easy Dialog for WordPress modal.
@@ -147,7 +148,7 @@ function edfw_add_dialog( dialog ) {
 
   // set id, if no id is given.
   if( dialog.id === undefined ) {
-    dialog.id = _.uniqueId("edfw-");
+    dialog.id = _uniqueId("edfw-");
   }
 
   // hide active dialog.

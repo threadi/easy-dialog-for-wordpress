@@ -1,7 +1,7 @@
 body.easy-dialog-for-wordpress.wp-core-ui {
 	overflow-y: scroll;
 
-	.edfw-modal {
+	.easy-dialog {
 		button {
 			margin-right: 12px
 		}
@@ -14,7 +14,7 @@ body.easy-dialog-for-wordpress.wp-core-ui {
 			font-family: dashicons, sans-serif;
 		}
 
-		.wp-progressbar {
+		.edfw-progressbar {
 			progress {
 				width: 100%;
 			}
