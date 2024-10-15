@@ -1,6 +1,6 @@
 {
 	"name": "@easy-dialog-for-wordpress/dialog",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Provides a simple react-driven dialog-modal for WordPress-backend.",
 	"author": "Thomas Zwirner",
 	"license": "GPL-2.0-or-later",
