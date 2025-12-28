@@ -7,7 +7,12 @@ body.easy-dialog-for-wordpress.wp-core-ui {
 		}
 
 		p {
-			line-height: 2
+			line-height: 2;
+			margin-top: 0;
+		}
+
+		input[type="text"], input[type="password"], input[type="file"] {
+			margin-bottom: 1em
 		}
 
 		.dashicons {
