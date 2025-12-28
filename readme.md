@@ -26,6 +26,8 @@ This is the successor to _WP Easy Dialog_. The new name became necessary due to 
 
 Any dialog is configured with the following options as array (each is optional):
 
+* callback
+  * a JS-callback which is called if the dialog is mounted
 * className
   * string with names the modal should become to set individual styles
 * title
