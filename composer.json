@@ -1,6 +1,6 @@
 {
   "name": "threadi/easy-dialog-for-wordpress",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Provides a simple react-driven dialog-modal for the WordPress-backend.",
   "type": "library",
   "license": "GPL-3.0-or-later",
