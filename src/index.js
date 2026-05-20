@@ -1,5 +1,5 @@
 /**
- * File to handle easy dialog for WordPress.
+ * File to handle the Easy Dialog for WordPress.
  *
  * @package easy-dialog-for-wordpress
  */
@@ -20,8 +20,19 @@ class EDFW_Dialog extends React.Component {
 	 * Run callback until component has been mount.
 	 */
 	componentDidMount() {
+    /**
+     * Define close action.
+     */
+    window.closeDialog = () => {
+      edfw_hide_dialog();
+    };
+
+    /**
+     * Run the callback before the dialog is rendered.
+     */
 		if( this.props.dialog.callback ) {
-			eval( this.props.dialog.callback );
+      const fn = window[this.props.dialog.callback];
+      if (typeof fn === 'function') fn();
 		}
 	}
 
@@ -33,13 +44,6 @@ class EDFW_Dialog extends React.Component {
 	 */
 	render() {
 		let args = this.props;
-
-		/**
-		 * Define close action.
-		 */
-		const closeDialog = () => {
-      edfw_hide_dialog();
-		};
 
 		/**
 		 * Define class names.
@@ -83,7 +87,7 @@ class EDFW_Dialog extends React.Component {
 				bodyOpenClassName="easy-dialog-for-wordpress"
 				className={ classNames }
 				isDismissible={ args.dialog.isDismissible }
-				onRequestClose={ closeDialog }
+				onRequestClose={ window.closeDialog }
 				title={ args.dialog.title }
 				shouldCloseOnClickOutside={ args.dialog.shouldCloseOnClickOutside }
 				shouldCloseOnEsc={ args.dialog.shouldCloseOnEsc }
@@ -106,7 +110,7 @@ class EDFW_Dialog extends React.Component {
 				)}
 				{args.dialog.buttons && args.dialog.buttons.map(function(button) {
 						return (
-							<Button key={button.text} className={button.className} variant={button.variant} onClick={ () => eval(button.action) } href={button.href}>
+							<Button key={button.text} className={button.className} variant={button.variant} onClick={ () => { new Function(button.action)(); } } href={button.href}>
 								{button.text}
 							</Button>
 						)
@@ -121,12 +125,7 @@ class EDFW_Dialog extends React.Component {
 /**
  * Show dialog, initiated by any event.
  *
- * If dialog already exist, it will be closed.
- *
- * Erzeuge zu jedem Dialog eine ID, wenn dieser nicht schon eine über seine Settings bekommen hat.
- * Trage jeden Dialog in die Liste aller Dialoge ein.
- * Blende jeden Dialog nur aus, nicht aus DOM entfernen.
- * Vor dem Anzeigen eines neuen Dialogs, suche ob dessen ID schon genutzt wird.
+ * If dialog already exist it will be closed.
  *
  * @type {null}
  */
@@ -146,7 +145,7 @@ function edfw_add_dialog( dialog ) {
     top.document.body.append(root);
   }
 
-  // set id, if no id is given.
+  // set ID, if no ID is given.
   if( dialog.id === undefined ) {
     dialog.id = _uniqueId("edfw-");
   }
@@ -232,7 +231,7 @@ function edfw_init() {
  */
 document.addEventListener( 'DOMContentLoaded', () => {
   /**
-   * Add listener which could be used to trigger the dialog with given configuration.
+   * Add a listener, which could be used to trigger the dialog with given configuration.
    *
    * Example: document.body.dispatchEvent( new CustomEvent( "easy-dialog-for-wordpress", { detail: dialog } ) );
    */
@@ -243,9 +242,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 	});
 
   /**
-   * Add listener for reinitialization.
+   * Add a listener for reinitialization.
    *
-   * Example: TODO
+   * Example: document.body.dispatchEvent( new Event( 'easy-dialog-for-wordpress-reinit' ) );
    */
 	document.body.addEventListener('easy-dialog-for-wordpress-reinit', function() {
     edfw_init();
