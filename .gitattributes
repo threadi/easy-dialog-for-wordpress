@@ -1,0 +1,6 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+# Do not export these files and directories in the composer package
+/doc export-ignore
+/.gitignore export-ignore
+/.editorconfig export-ignore
