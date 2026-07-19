@@ -15,7 +15,7 @@ This is the repository for the script. The target group is developers of WordPre
 
 1. ``composer require threadi/easy-dialog-for-wordpress``
 2. Switch to ``vendor/thread/easy-dialog-for-wordpress``
-3. Add the codes from [https://github.com/threadi/easy-dialog-for-wordpress/doc/embed.php](https://github.com/threadi/easy-dialog-for-wordpress/doc/embed.php) to your WordPress plugin or theme.
+3. Add the codes from [https://github.com/threadi/easy-dialog-for-wordpress/blob/master/doc/embed.php](https://github.com/threadi/easy-dialog-for-wordpress/blob/master/doc/embed.php) to your WordPress plugin or theme.
 
 ## Configuration
 
@@ -140,7 +140,7 @@ body.easy-dialog-for-wordpress.wp-core-ui .components-modal__frame.easy-dialog {
 
 ### Which WordPress version is required?
 
-The lowest tested version is WordPress 6.2.
+The lowest tested version is WordPress 6.6. To use it on older versions, use Easy Dialog for WordPress 1.0.4.
 
 ### How to simply close the active dialog?
 
