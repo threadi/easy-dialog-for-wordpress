@@ -41,11 +41,11 @@ function custom_dialog_embed(): void {
 
     // embed the dialog-components CSS script.
     $admin_css      = $url . 'build/style-index.css';
-    $admin_css_path = $path . 'build/style-index.css';
     wp_enqueue_style(
         'easy-dialog-for-wordpress',
         $admin_css,
         array( 'wp-components' ),
 	    $script_asset['version']
     );
+	wp_style_add_data( 'easy-dialog-for-wordpress', 'rtl', 'replace' );
 }
