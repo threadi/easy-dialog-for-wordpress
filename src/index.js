@@ -6,8 +6,14 @@
 import './style.scss';
 import { Button, Modal } from '@wordpress/components';
 import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom';
-import _uniqueId from 'lodash/uniqueId';
+
+/**
+ * Generate a custom unique ID.
+ *
+ * @type {number}
+ */
+let edfw_id_counter = 0;
+const edfw_unique_id = ( prefix = '' ) => `${ prefix }${ ++edfw_id_counter }`;
 
 /**
  * Define the Easy Dialog for WordPress modal.
@@ -147,7 +153,7 @@ function edfw_add_dialog( dialog ) {
 
   // set ID, if no ID is given.
   if( dialog.id === undefined ) {
-    dialog.id = _uniqueId("edfw-");
+    dialog.id = edfw_unique_id( 'edfw-' );
   }
 
   // hide active dialog.
@@ -156,18 +162,11 @@ function edfw_add_dialog( dialog ) {
   // add this dialog to the list.
   edfw_dialogs[dialog.id] = dialog;
 
-  if( ReactDOM.createRoot === undefined ) {
-    // old style way: use render.
-    const container = top.document.getElementById('easy-dialog-for-wordpress-root');
-    render(<EDFW_Dialog dialog={dialog}/>, container);
-  }
-  else {
-    // modern way: use createRoot.
-    edfw_dialog = ReactDOM.createRoot(top.document.getElementById('easy-dialog-for-wordpress-root'));
-    edfw_dialog.render(
-      <EDFW_Dialog dialog={dialog}/>
-    );
-  }
+  // create the dialog.
+  edfw_dialog = ReactDOM.createRoot(top.document.getElementById('easy-dialog-for-wordpress-root'));
+  edfw_dialog.render(
+    <EDFW_Dialog dialog={dialog}/>
+  );
 }
 
 /**
@@ -175,16 +174,13 @@ function edfw_add_dialog( dialog ) {
  */
 function edfw_hide_dialog() {
   // bail if no dialog is active.
-  if( edfw_dialog === null ) {
+  if( null === edfw_dialog ) {
     return;
   }
 
-  if( ReactDOM.createRoot === undefined ) {
-    unmountComponentAtNode( top.document.getElementById( 'easy-dialog-for-wordpress-root' ) )
-  }
-  else {
-    edfw_dialog.unmount();
-  }
+  // remove the dialog.
+  edfw_dialog.unmount();
+  edfw_dialog = null;
 }
 
 /**
