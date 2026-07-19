@@ -141,7 +141,7 @@ body.easy-dialog-for-wordpress.wp-core-ui .components-modal__frame.easy-dialog {
 
 ### Which WordPress version is required?
 
-The lowest tested version is WordPress 5.9.
+The lowest tested version is WordPress 6.2.
 
 ### How to simply close the active dialog?
 
