@@ -16,9 +16,7 @@ This is the repository for the script. The target group is developers of WordPre
 
 1. ``composer require threadi/easy-dialog-for-wordpress``
 2. Switch to ``vendor/thread/easy-dialog-for-wordpress``
-3. Run ``npm i`` to install dependencies.
-4. Run ``npm run build`` to compile the scripts.
-5. Add the codes from `doc/embed.php` to your WordPress plugin or theme.
+3. Add the codes from `doc/embed.php` to your WordPress plugin or theme.
 
 ## Configuration
 
