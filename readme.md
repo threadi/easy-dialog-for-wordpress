@@ -6,6 +6,10 @@ This script enables the output of modal dialogs in the WordPress backend. It is 
 
 This is the repository for the script. The target group is developers of WordPress plugins and themes. Regular WordPress users should contact their technical support person if they have any questions.
 
+## Demo
+
+[This demo plugin](https://github.com/threadi/easy-dialog-for-wordpress-demo) demonstrates how the encryption could be used.
+
 ## Requirements to use this package
 
 * _composer_ to install this package.
@@ -187,3 +191,7 @@ Simple example:
 ```
 let my_field_value = jQuery('#yourFieldId').val();
 ```
+
+## Build a release
+
+Create a new tag and use "build-2.x.x" as name for the tag.
