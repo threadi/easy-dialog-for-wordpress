@@ -21,7 +21,7 @@ function custom_dialog_embed(): void {
         return;
     }
 
-    // get the assets path.
+    // get the path for the assets.
     $script_asset_path = $path . 'build/index.asset.php';
 
     // bail if assets do not exist.
@@ -46,6 +46,6 @@ function custom_dialog_embed(): void {
         'easy-dialog-for-wordpress',
         $admin_css,
         array( 'wp-components' ),
-        filemtime( $admin_css_path )
+	    $script_asset['version']
     );
 }
