@@ -6,6 +6,7 @@
 import './style.scss';
 import { Button, Modal } from '@wordpress/components';
 import React from 'react'
+import { createRoot } from 'react-dom/client';
 
 /**
  * Generate a custom unique ID.
@@ -163,7 +164,7 @@ function edfw_add_dialog( dialog ) {
   edfw_dialogs[dialog.id] = dialog;
 
   // create the dialog.
-  edfw_dialog = ReactDOM.createRoot(top.document.getElementById('easy-dialog-for-wordpress-root'));
+  edfw_dialog = createRoot(top.document.getElementById('easy-dialog-for-wordpress-root'));
   edfw_dialog.render(
     <EDFW_Dialog dialog={dialog}/>
   );
