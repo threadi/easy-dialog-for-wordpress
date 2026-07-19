@@ -9,14 +9,13 @@ This is the repository for the script. The target group is developers of WordPre
 ## Requirements to use this package
 
 * _composer_ to install this package.
-* _npm_ to compile the scripts.
 * WordPress plugin, theme or a _Code Snippet_-plugin to embed it in your project.
 
 ## Installation
 
 1. ``composer require threadi/easy-dialog-for-wordpress``
 2. Switch to ``vendor/thread/easy-dialog-for-wordpress``
-3. Add the codes from https://github.com/threadi/easy-dialog-for-wordpress/doc/embed.php to your WordPress plugin or theme.
+3. Add the codes from [https://github.com/threadi/easy-dialog-for-wordpress/doc/embed.php](https://github.com/threadi/easy-dialog-for-wordpress/doc/embed.php) to your WordPress plugin or theme.
 
 ## Configuration
 
