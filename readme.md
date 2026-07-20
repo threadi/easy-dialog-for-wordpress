@@ -6,19 +6,20 @@ This script enables the output of modal dialogs in the WordPress backend. It is 
 
 This is the repository for the script. The target group is developers of WordPress plugins and themes. Regular WordPress users should contact their technical support person if they have any questions.
 
+## Demo
+
+[This demo plugin](https://github.com/threadi/easy-dialog-for-wordpress-demo) demonstrates how the encryption could be used.
+
 ## Requirements to use this package
 
 * _composer_ to install this package.
-* _npm_ to compile the scripts.
 * WordPress plugin, theme or a _Code Snippet_-plugin to embed it in your project.
 
 ## Installation
 
 1. ``composer require threadi/easy-dialog-for-wordpress``
 2. Switch to ``vendor/thread/easy-dialog-for-wordpress``
-3. Run ``npm i`` to install dependencies.
-4. Run ``npm run build`` to compile the scripts.
-5. Add the codes from `doc/embed.php` to your WordPress plugin or theme.
+3. Add the codes from [https://github.com/threadi/easy-dialog-for-wordpress/blob/master/doc/embed.php](https://github.com/threadi/easy-dialog-for-wordpress/blob/master/doc/embed.php) to your WordPress plugin or theme.
 
 ## Configuration
 
@@ -143,7 +144,7 @@ body.easy-dialog-for-wordpress.wp-core-ui .components-modal__frame.easy-dialog {
 
 ### Which WordPress version is required?
 
-The lowest tested version is WordPress 5.9.
+The lowest tested version is WordPress 6.6. To use it on older versions, use Easy Dialog for WordPress 1.0.4.
 
 ### How to simply close the active dialog?
 
@@ -190,3 +191,7 @@ Simple example:
 ```
 let my_field_value = jQuery('#yourFieldId').val();
 ```
+
+## Build a release
+
+Create a new tag and use "build-2.x.x" as name for the tag.
