@@ -31,7 +31,11 @@ class EDFW_Dialog extends React.Component {
      * Run the callback before the dialog is rendered.
      */
 		if( this.props.dialog.callback ) {
-      const fn = window[this.props.dialog.callback];
+      const callbackName = this.props.dialog.callback
+        .replace(/\(.*\)?/g, '')
+        .replace(/;/g, '')
+        .trim();
+      const fn = window[callbackName];
       if (typeof fn === 'function') fn();
 		}
 	}
