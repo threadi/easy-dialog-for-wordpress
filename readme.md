@@ -80,7 +80,7 @@ $dialog = array(
 		),
 	)
 );
-echo '<a href="#" class="wp-easy-dialog" data-dialog="'.esc_attr(wp_json_encode($dialog)).'">Some link</a>';
+echo '<a href="#" class="easy-dialog-for-wordpress" data-dialog="'.esc_attr(wp_json_encode($dialog)).'">Some link</a>';
 ```
 
 ### Example 2
