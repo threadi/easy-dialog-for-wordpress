@@ -17,6 +17,13 @@ let edfw_id_counter = 0;
 const edfw_unique_id = ( prefix = '' ) => `${ prefix }${ ++edfw_id_counter }`;
 
 /**
+ * Define close action.
+ */
+window.closeDialog = () => {
+  edfw_hide_dialog();
+};
+
+/**
  * Define the Easy Dialog for WordPress modal.
  *
  * @returns {JSX.Element}
@@ -27,13 +34,6 @@ class EDFW_Dialog extends React.Component {
 	 * Run callback until component has been mount.
 	 */
 	componentDidMount() {
-    /**
-     * Define close action.
-     */
-    window.closeDialog = () => {
-      edfw_hide_dialog();
-    };
-
     /**
      * Run the callback before the dialog is rendered.
      */
