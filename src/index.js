@@ -202,6 +202,13 @@ function edfw_open_dialog( id_to_open ) {
 }
 
 /**
+ * Make the function usable in button actions, which run in the global scope.
+ *
+ * Example: 'action' => 'edfw_open_dialog("my-dialog-id");'
+ */
+window.edfw_open_dialog = edfw_open_dialog;
+
+/**
  * Set the Easy Dialog for WordPress initiator on every element with the class "easy-dialog-for-wordpress".
  */
 function edfw_init() {
