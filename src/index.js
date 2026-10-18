@@ -30,40 +30,40 @@ window.closeDialog = () => {
  * @constructor
  */
 class EDFW_Dialog extends React.Component {
-	/**
-	 * Run callback until component has been mount.
-	 */
-	componentDidMount() {
+  /**
+   * Run callback until component has been mount.
+   */
+  componentDidMount() {
     /**
      * Run the callback before the dialog is rendered.
      */
-		if( this.props.dialog.callback ) {
+    if( this.props.dialog.callback ) {
       const callbackName = this.props.dialog.callback
         .replace(/\(.*\)?/g, '')
         .replace(/;/g, '')
         .trim();
       const fn = window[callbackName];
       if (typeof fn === 'function') fn();
-		}
-	}
+    }
+  }
 
-	/**
-	 * Output rendered dialog, with title, texts and buttons configured by JSON.
-	 *
-	 * Prepared possible button-actions:
-	 * - closeDialog() => closes the dialog
-	 */
-	render() {
-		let args = this.props;
+  /**
+   * Output rendered dialog, with title, texts and buttons configured by JSON.
+   *
+   * Prepared possible button-actions:
+   * - closeDialog() => closes the dialog
+   */
+  render() {
+    let args = this.props;
 
-		/**
-		 * Define class names.
-		 * @type {string}
-		 */
-		let classNames = "easy-dialog";
-		if( this.props.dialog.className ) {
-			classNames = "easy-dialog " + this.props.dialog.className;
-		}
+    /**
+     * Define class names.
+     * @type {string}
+     */
+    let classNames = "easy-dialog";
+    if( this.props.dialog.className ) {
+      classNames = "easy-dialog " + this.props.dialog.className;
+    }
 
     /**
      * Set isDismissible initially to false.
@@ -93,44 +93,44 @@ class EDFW_Dialog extends React.Component {
       args.dialog.hide_title = false;
     }
 
-		return (
-			<Modal
-				bodyOpenClassName="easy-dialog-for-wordpress"
-				className={ classNames }
-				isDismissible={ args.dialog.isDismissible }
-				onRequestClose={ window.closeDialog }
-				title={ args.dialog.title }
-				shouldCloseOnClickOutside={ args.dialog.shouldCloseOnClickOutside }
-				shouldCloseOnEsc={ args.dialog.shouldCloseOnEsc }
-				__experimentalHideHeader={ args.dialog.hide_title }
-			>
-				{args.dialog.texts && args.dialog.texts.map(function(text) {
-						return (
-							<div key={text} dangerouslySetInnerHTML={{__html: text}} className="easy-dialog-for-wordpress-text" />
-						)
-					}
-				)
-				}
-				{args.dialog.progressbar && args.dialog.progressbar.active && (
-					<div
-						className="edfw-progressbar"
-					>
-						<progress max="100" id={args.dialog.progressbar.id} value={args.dialog.progressbar.progress}>&nbsp;</progress>
-						{args.dialog.progressbar.label_id && <p id={args.dialog.progressbar.label_id}></p>}
-					</div>
-				)}
-				{args.dialog.buttons && args.dialog.buttons.map(function(button) {
-						return (
-							<Button key={button.text} className={button.className} variant={button.variant} onClick={ () => { new Function(button.action)(); } } href={button.href}>
-								{button.text}
-							</Button>
-						)
-					}
-				)
-				}
-			</Modal>
-		)
-	}
+    return (
+      <Modal
+        bodyOpenClassName="easy-dialog-for-wordpress"
+        className={ classNames }
+        isDismissible={ args.dialog.isDismissible }
+        onRequestClose={ window.closeDialog }
+        title={ args.dialog.title }
+        shouldCloseOnClickOutside={ args.dialog.shouldCloseOnClickOutside }
+        shouldCloseOnEsc={ args.dialog.shouldCloseOnEsc }
+        __experimentalHideHeader={ args.dialog.hide_title }
+      >
+        {args.dialog.texts && args.dialog.texts.map(function(text) {
+            return (
+              <div key={text} dangerouslySetInnerHTML={{__html: text}} className="easy-dialog-for-wordpress-text" />
+            )
+          }
+        )
+        }
+        {args.dialog.progressbar && args.dialog.progressbar.active && (
+          <div
+            className="edfw-progressbar"
+          >
+            <progress max="100" id={args.dialog.progressbar.id} value={args.dialog.progressbar.progress}>&nbsp;</progress>
+            {args.dialog.progressbar.label_id && <p id={args.dialog.progressbar.label_id}></p>}
+          </div>
+        )}
+        {args.dialog.buttons && args.dialog.buttons.map(function(button) {
+            return (
+              <Button key={button.text} className={button.className} variant={button.variant} onClick={ () => { new Function(button.action)(); } } href={button.href}>
+                {button.text}
+              </Button>
+            )
+          }
+        )
+        }
+      </Modal>
+    )
+  }
 }
 
 /**
@@ -145,7 +145,7 @@ let edfw_dialog = null;
 
 function edfw_add_dialog( dialog ) {
   // bail if no configuration is given.
-	if( dialog === undefined ) {
+  if( dialog === undefined ) {
     return;
   }
 
@@ -209,57 +209,82 @@ function edfw_open_dialog( id_to_open ) {
 window.edfw_open_dialog = edfw_open_dialog;
 
 /**
- * Set the Easy Dialog for WordPress initiator on every element with the class "easy-dialog-for-wordpress".
+ * Open the dialog configured in the data attributes of the given element.
+ *
+ * @param {HTMLElement} element The element with the data-dialog attribute.
  */
-function edfw_init() {
-	let dialog_links = document.getElementsByClassName('easy-dialog-for-wordpress');
-	for( let i=0;i<dialog_links.length;i++ ) {
-		if( dialog_links[i].dataset.dialog ) {
-			dialog_links[i].onclick = function (e) {
-				e.preventDefault();
+function edfw_open_from_element( element ) {
+  let dialog;
 
-        // get the dialog texts.
-        let dialog = JSON.parse( this.dataset.dialog );
+  try {
+    // get the dialog texts.
+    dialog = JSON.parse( element.dataset.dialog );
 
-        // get the dialog settings.
-        if( this.dataset.dialogSettings ) {
-          // add settings to dialog-object.
-          dialog = { ...dialog, ...JSON.parse( this.dataset.dialogSettings ) };
-        }
+    // get the dialog settings.
+    if ( element.dataset.dialogSettings ) {
+      // add settings to dialog-object.
+      dialog = { ...dialog, ...JSON.parse( element.dataset.dialogSettings ) };
+    }
+  } catch ( error ) {
+    console.error( 'Easy Dialog for WordPress: invalid dialog configuration.', error );
+    return;
+  }
 
-        // dispatch the event to show the dialog.
-				document.body.dispatchEvent( new CustomEvent( "easy-dialog-for-wordpress", { detail: dialog } ) );
-			};
-		}
-	}
+  // dispatch the event to show the dialog.
+  document.body.dispatchEvent( new CustomEvent( 'easy-dialog-for-wordpress', { detail: dialog } ) );
 }
 
 /**
- * Add events where the dialog could be fired.
+ * Register the event listeners only once, even if the script is loaded multiple times
+ * (e.g. bundled by different plugins with different script handles).
  */
-document.addEventListener( 'DOMContentLoaded', () => {
-  /**
-   * Add a listener, which could be used to trigger the dialog with given configuration.
-   *
-   * Example: document.body.dispatchEvent( new CustomEvent( "easy-dialog-for-wordpress", { detail: dialog } ) );
-   */
-	document.body.addEventListener('easy-dialog-for-wordpress', function( attr ) {
-		if( attr.detail ) {
-      edfw_add_dialog( attr.detail );
-		}
-	});
+if ( ! window.edfwLoaded ) {
+  window.edfwLoaded = true;
 
   /**
-   * Add a listener for reinitialization.
+   * Open the dialog on a click on any element with the class "easy-dialog-for-wordpress"
+   * and a data-dialog attribute.
    *
-   * Example: document.body.dispatchEvent( new Event( 'easy-dialog-for-wordpress-reinit' ) );
+   * The click is delegated to the document, so it also works for elements which are added
+   * to the page after the initial page load (e.g. rendered by React or loaded via AJAX).
    */
-	document.body.addEventListener('easy-dialog-for-wordpress-reinit', function() {
-    edfw_init();
-	});
+  document.addEventListener( 'click', (e) => {
+    // the [data-dialog] filter is required: the open modal sets the same class on the body.
+    const element = e.target instanceof Element ? e.target.closest( '.easy-dialog-for-wordpress[data-dialog]' ) : null;
+
+    // bail if the click was not on a dialog element.
+    if (!element) {
+      return;
+    }
+
+    e.preventDefault();
+    edfw_open_from_element( element );
+  } );
 
   /**
-   * On each element with the class "easy-dialog".
+   * Add events where the dialog could be fired.
    */
-  edfw_init();
-})
+  document.addEventListener( 'DOMContentLoaded', () => {
+    /**
+     * Add a listener, which could be used to trigger the dialog with given configuration.
+     *
+     * Example: document.body.dispatchEvent( new CustomEvent( "easy-dialog-for-wordpress", { detail: dialog } ) );
+     */
+    document.body.addEventListener( 'easy-dialog-for-wordpress', function (attr) {
+      if (attr.detail) {
+        edfw_add_dialog( attr.detail );
+      }
+    } );
+
+    /**
+     * Listener for reinitialization.
+     *
+     * Not needed anymore, because the click on dialog elements is delegated to the document.
+     * Kept for backward compatibility with code which still dispatches this event.
+     *
+     * Example: document.body.dispatchEvent( new Event( 'easy-dialog-for-wordpress-reinit' ) );
+     */
+    document.body.addEventListener( 'easy-dialog-for-wordpress-reinit', function () {
+    } );
+  } );
+}
