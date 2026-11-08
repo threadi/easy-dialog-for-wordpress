@@ -17,13 +17,6 @@ let edfw_id_counter = 0;
 const edfw_unique_id = ( prefix = '' ) => `${ prefix }${ ++edfw_id_counter }`;
 
 /**
- * Define close action.
- */
-window.closeDialog = () => {
-  edfw_hide_dialog();
-};
-
-/**
  * Define the Easy Dialog for WordPress modal.
  *
  * @returns {JSX.Element}
@@ -87,7 +80,7 @@ class EDFW_Dialog extends React.Component {
     }
 
     /**
-     * Set shouldCloseOnEsc initially to false.
+     * Set hide_title initially to false.
      */
     if( args.dialog.hide_title === undefined ) {
       args.dialog.hide_title = false;
@@ -104,9 +97,9 @@ class EDFW_Dialog extends React.Component {
         shouldCloseOnEsc={ args.dialog.shouldCloseOnEsc }
         __experimentalHideHeader={ args.dialog.hide_title }
       >
-        {args.dialog.texts && args.dialog.texts.map(function(text) {
+        {args.dialog.texts && args.dialog.texts.map(function( text, index ) {
             return (
-              <div key={text} dangerouslySetInnerHTML={{__html: text}} className="easy-dialog-for-wordpress-text" />
+              <div key={index} dangerouslySetInnerHTML={{__html: text}} className="easy-dialog-for-wordpress-text" />
             )
           }
         )
@@ -134,6 +127,20 @@ class EDFW_Dialog extends React.Component {
 }
 
 /**
+ * Return the root document object.
+ * @returns {Document}
+ */
+function edfwRootDocument() {
+  let w = window;
+  try {
+    while ( w !== w.parent && w.parent.document ) {
+      w = w.parent;
+    }
+  } catch ( x ) {}
+  return w.document;
+}
+
+/**
  * Show dialog, initiated by any event.
  *
  * If dialog already exist it will be closed.
@@ -149,11 +156,14 @@ function edfw_add_dialog( dialog ) {
     return;
   }
 
+  // get the root document.
+  const rootDocument = edfwRootDocument();
+
   // create helper-element.
-  if( ! top.document.getElementById('easy-dialog-for-wordpress-root') ) {
-    let root = top.document.createElement('div');
+  if( ! rootDocument.getElementById('easy-dialog-for-wordpress-root') ) {
+    let root = rootDocument.createElement('div');
     root.id = 'easy-dialog-for-wordpress-root';
-    top.document.body.append(root);
+    rootDocument.body.append(root);
   }
 
   // set ID, if no ID is given.
@@ -168,7 +178,7 @@ function edfw_add_dialog( dialog ) {
   edfw_dialogs[dialog.id] = dialog;
 
   // create the dialog.
-  edfw_dialog = createRoot(top.document.getElementById('easy-dialog-for-wordpress-root'));
+  edfw_dialog = createRoot(rootDocument.getElementById('easy-dialog-for-wordpress-root'));
   edfw_dialog.render(
     <EDFW_Dialog dialog={dialog}/>
   );
@@ -202,13 +212,6 @@ function edfw_open_dialog( id_to_open ) {
 }
 
 /**
- * Make the function usable in button actions, which run in the global scope.
- *
- * Example: 'action' => 'edfw_open_dialog("my-dialog-id");'
- */
-window.edfw_open_dialog = edfw_open_dialog;
-
-/**
  * Open the dialog configured in the data attributes of the given element.
  *
  * @param {HTMLElement} element The element with the data-dialog attribute.
@@ -240,6 +243,20 @@ function edfw_open_from_element( element ) {
  */
 if ( ! window.edfwLoaded ) {
   window.edfwLoaded = true;
+
+  /**
+   * Define close action.
+   */
+  window.closeDialog = () => {
+    edfw_hide_dialog();
+  };
+
+  /**
+   * Make the function usable in button actions, which run in the global scope.
+   *
+   * Example: 'action' => 'edfw_open_dialog("my-dialog-id");'
+   */
+  window.edfw_open_dialog = edfw_open_dialog;
 
   /**
    * Open the dialog on a click on any element with the class "easy-dialog-for-wordpress"
